@@ -1,0 +1,5 @@
+<h1>Hidden ajax call</h1>
+<div style="background:#ddd;margin:20px;padding:20px;border:1px solid black;width:auto;display:inline-block;text-align:center;cursor:pointer;">This is a button</div>
+<script>
+    document.getElementsByTagName('div')[0].onclick = function(){fetch("/crawler_tests/ajax_query/{{ ajax_path }}").then(response => console.log('11'))};
+</script>

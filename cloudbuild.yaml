@@ -1,0 +1,13 @@
+# Config file used for continuous deployment to Google Cloud Run.
+steps:
+  # build the container image
+- name: 'gcr.io/cloud-builders/docker'
+  args: ['build', '-t', 'gcr.io/$PROJECT_ID/security-crawl-maze', '.']
+  # push the container image to Container Registry
+- name: 'gcr.io/cloud-builders/docker'
+  args: ['push', 'gcr.io/$PROJECT_ID/security-crawl-maze']
+  # Deploy container image to Cloud Run
+- name: 'gcr.io/cloud-builders/gcloud'
+  args: ['beta', 'run', 'deploy', 'security-crawl-maze', '--image', 'gcr.io/$PROJECT_ID/security-crawl-maze', '--region', 'us-central1', '--platform', 'managed']
+images:
+- gcr.io/$PROJECT_ID/security-crawl-maze
