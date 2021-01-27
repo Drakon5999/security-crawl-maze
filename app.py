@@ -24,6 +24,7 @@ from blueprints.crawler_tests import crawler_tests
 from flask import Flask
 from flask import make_response
 from flask import render_template
+from flask import send_from_directory
 
 app = Flask(__name__)
 app.register_blueprint(css_module, url_prefix="/css")
@@ -33,7 +34,6 @@ app.register_blueprint(javascript_module, url_prefix="/javascript")
 app.register_blueprint(misc_module, url_prefix="/misc")
 app.register_blueprint(crawler_tests, url_prefix="/crawler_tests")
 app.register_blueprint(utils_module)
-
 
 @app.route("/")
 def index():
@@ -54,6 +54,9 @@ def sitemap():
   r.headers["Content-Type"] = "application/xml"
   return r
 
-
+@app.route('/favicon.ico')
+def favicon():
+    return send_from_directory(os.path.join(app.root_path, 'static'),
+                               'favicon.ico', mimetype='image/x-icon')
 if __name__ == "__main__":
   app.run(host="0.0.0.0", port=int(os.environ.get("PORT", 8080)))
